@@ -10,6 +10,21 @@ defmodule SsbBfe.Types do
   end
   
   @doc ~S"""
+  Take a box as a string and return the encoded bytes representing the box
+  type-format. Return `nil` if the ID does not end with `.box` or `.box2`.
+  """
+  def get_box_type(boxed_str) do
+    cond do
+      String.ends_with?(boxed_str, ".box") ->
+        <<5, 0>>
+      String.ends_with?(boxed_str, ".box2") ->
+        <<5, 1>>
+      true ->
+        nil
+    end
+  end
+
+  @doc ~S"""
   Take a feed ID (key) as a string and return the encoded bytes representing
   the feed type-format. Return `nil` if the ID does not end with `.ed25519`.
   """
