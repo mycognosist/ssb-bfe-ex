@@ -18,4 +18,20 @@ defmodule SsbBfe.Types do
       <<0, 0>>
     end
   end
+
+  @doc ~S"""
+  Take a message ID as a string and return the encoded bytes representing
+  the message type-format. Return `nil` if the ID does not end with `.sha256`
+  or `.cloaked`.
+  """
+  def get_msg_type(msg_id) do
+    cond do
+      String.ends_with?(msg_id, ".sha256") ->
+        <<1, 0>>
+      String.ends_with?(msg_id, ".cloaked") ->
+        <<1, 2>>
+      true ->
+        nil
+    end
+  end
 end
