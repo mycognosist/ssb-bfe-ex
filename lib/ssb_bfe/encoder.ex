@@ -1,5 +1,5 @@
 # might be good to use a multiclause function for the `encode` function
-# - use the `where` conditional guard with e.g. `is_number` 
+# - use the `when` conditional guard with e.g. `is_number` 
 
 defmodule SsbBfe.Encoder do
   # Extract the base64 substring from a sigil-link and decode it.
