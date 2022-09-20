@@ -2,8 +2,15 @@
 # - use the `where` conditional guard with e.g. `is_number` 
 
 defmodule SsbBfe.Encoder do
+  # Extract the base64 substring from a sigil-link and decode it.
   defp extract_base64_data(str) do
-    base64_data = String.slice(str, 1, 44)
+    base64_data = String.slice(str, 1..44)
+    Base.decode64(base64_data)
+  end
+
+  # Provide a pattern with which to split a string and base64 decode the first part.
+  defp extract_base64_data(str, pattern) do
+    [base64_data | _] = String.split(str, pattern)
     Base.decode64(base64_data)
   end
 
@@ -19,8 +26,7 @@ defmodule SsbBfe.Encoder do
 
   def encode_box(box_str) do
     box_tf_tag = SsbBfe.Types.get_box_type(box_str)
-    [base64_data, _] = String.split(box_str, ".")
-    {:ok, decoded_base64_data} = Base.decode64(base64_data)
+    {:ok, decoded_base64_data} = extract_base64_data(box_str, ".")
     box_tf_tag <> decoded_base64_data
   end
 
@@ -34,5 +40,10 @@ defmodule SsbBfe.Encoder do
     msg_tf_tag = SsbBfe.Types.get_msg_type(msg_id)
     {:ok, decoded_base64_data} = extract_base64_data(msg_id)
     msg_tf_tag <> decoded_base64_data
+  end
+
+  def encode_sig(sig) do
+    {:ok, decoded_base64_data} = extract_base64_data(sig, ".sig.ed25519")
+    <<4, 0>> <> decoded_base64_data
   end
 end
