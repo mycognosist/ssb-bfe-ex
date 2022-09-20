@@ -13,7 +13,9 @@ defmodule SsbBfeTest do
       str: "golden ripples in the meshwork",
     ]
   end
-  
+
+  # HAPPY PATH ENCODING TESTS
+
   test "classic feed is encoded correctly", context do
     encoded_feed = SsbBfe.encode(context.feed_classic)
     
@@ -48,5 +50,11 @@ defmodule SsbBfeTest do
     encoded_box2 = SsbBfe.encode(context.box2)
 
     assert encoded_box2 == <<5, 1, 108, 111, 118, 101, 32, 99, 111, 108, 108, 97, 112, 115, 101, 115, 32, 115, 112, 97, 99, 101, 116, 105, 109, 101>>
+  end
+
+  test "plain string is encoded correctly", context do
+    encoded_str = SsbBfe.encode(context.str)
+
+    assert encoded_str == <<6, 0, 103, 111, 108, 100, 101, 110, 32, 114, 105, 112, 112, 108, 101, 115, 32, 105, 110, 32, 116, 104, 101, 32, 109, 101, 115, 104, 119, 111, 114, 107>>
   end
 end
