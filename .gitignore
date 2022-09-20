@@ -24,3 +24,6 @@ ssb_bfe-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+# Ignore the lockfile
+mix.lock
