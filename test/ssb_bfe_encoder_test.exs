@@ -7,6 +7,7 @@ defmodule SsbBfeEncoderTest do
   @classic_feed "@d/zDvFswFbQaYJc03i47C9CgDev+/A8QQSfG5l/SEfw=.ed25519"
   @classic_msg "%R8heq/tQoxEIPkWf0Kxn1nCm/CsxG2CDpUYnAvdbXY8=.sha256"
   @sig "nkY4Wsn9feosxvX7bpLK7OxjdSrw6gSL8sun1n2TMLXKySYK9L5itVQnV2nQUctFsrUOa2istD2vDk1B0uAMBQ==.sig.ed25519"
+  @str "golden ripples in the meshwork"
 
   test "encode_blob_works" do
     encoded_blob = SsbBfe.Encoder.encode_blob(@blob_id)
@@ -43,5 +44,10 @@ defmodule SsbBfeEncoderTest do
   test "encode_sig_works" do
     encoded_sig = SsbBfe.Encoder.encode_sig(@sig)
     assert encoded_sig == <<4, 0, 158, 70, 56, 90, 201, 253, 125, 234, 44, 198, 245, 251, 110, 146, 202, 236, 236, 99, 117, 42, 240, 234, 4, 139, 242, 203, 167, 214, 125, 147, 48, 181, 202, 201, 38, 10, 244, 190, 98, 181, 84, 39, 87, 105, 208, 81, 203, 69, 178, 181, 14, 107, 104, 172, 180, 61, 175, 14, 77, 65, 210, 224, 12, 5>>
+  end
+
+  test "encode_str_works" do
+    encoded_str = SsbBfe.Encoder.encode_str(@str)
+    assert encoded_str == <<6, 0, 103, 111, 108, 100, 101, 110, 32, 114, 105, 112, 112, 108, 101, 115, 32, 105, 110, 32, 116, 104, 101, 32, 109, 101, 115, 104, 119, 111, 114, 107>>
   end
 end
