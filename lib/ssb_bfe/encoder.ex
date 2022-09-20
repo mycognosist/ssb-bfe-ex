@@ -46,4 +46,8 @@ defmodule SsbBfe.Encoder do
     {:ok, decoded_base64_data} = extract_base64_data(sig, ".sig.ed25519")
     <<4, 0>> <> decoded_base64_data
   end
-end
+
+  def encode_str(str), do: <<6, 0>> <> str
+
+  # def encode_uri(uri)
+end 
