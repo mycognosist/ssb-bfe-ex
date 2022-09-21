@@ -8,7 +8,7 @@ defmodule SsbBfe.Types do
       <<2, 0>>
     end
   end
-  
+
   @doc ~S"""
   Take a box as a string and return the encoded bytes representing the box
   type-format. Return `nil` if the ID does not end with `.box` or `.box2`.
@@ -17,8 +17,10 @@ defmodule SsbBfe.Types do
     cond do
       String.ends_with?(boxed_str, ".box") ->
         <<5, 0>>
+
       String.ends_with?(boxed_str, ".box2") ->
         <<5, 1>>
+
       true ->
         nil
     end
@@ -43,8 +45,10 @@ defmodule SsbBfe.Types do
     cond do
       String.ends_with?(msg_id, ".sha256") ->
         <<1, 0>>
+
       String.ends_with?(msg_id, ".cloaked") ->
         <<1, 2>>
+
       true ->
         nil
     end
