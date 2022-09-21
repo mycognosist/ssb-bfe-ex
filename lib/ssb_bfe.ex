@@ -16,6 +16,24 @@ defmodule SsbBfe do
     :world
   end
 
+  def encode(value) when is_list(value) do
+    Enum.map(value, fn x -> encode(x) end)
+  end
+
+  def encode(value) when is_map(value) do
+    Enum.reduce(
+      value,
+      %{},
+      fn {k, v}, acc ->
+        Map.put(acc, k, SsbBfe.encode(v))
+      end
+    )
+  end
+
+  def encode(value) when is_tuple(value) do
+    Enum.map(Tuple.to_list(value), fn x -> encode(x) end)
+  end
+
   def encode(value) when is_bitstring(value) do
     cond do
       String.starts_with?(value, "@") ->
@@ -37,4 +55,10 @@ defmodule SsbBfe do
         SsbBfe.Encoder.encode_str(value)
     end
   end
+
+  def encode(value) when is_boolean(value), do: SsbBfe.Encoder.encode_bool(value)
+
+  def encode(value) when is_number(value), do: value
+
+  def encode(value) when is_nil(value), do: SsbBfe.Encoder.encode_nil()
 end
