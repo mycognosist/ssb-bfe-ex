@@ -42,6 +42,8 @@ defmodule SsbBfe.Encoder do
     msg_tf_tag <> decoded_base64_data
   end
 
+  def encode_nil(), do: <<6, 2>>
+
   def encode_sig(sig) do
     {:ok, decoded_base64_data} = extract_base64_data(sig, ".sig.ed25519")
     <<4, 0>> <> decoded_base64_data
