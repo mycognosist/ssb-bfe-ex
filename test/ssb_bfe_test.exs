@@ -57,4 +57,36 @@ defmodule SsbBfeTest do
 
     assert encoded_str == <<6, 0, 103, 111, 108, 100, 101, 110, 32, 114, 105, 112, 112, 108, 101, 115, 32, 105, 110, 32, 116, 104, 101, 32, 109, 101, 115, 104, 119, 111, 114, 107>>
   end
+
+  test "boolean is encoded correctly" do
+    encoded_bool_true = SsbBfe.encode(true)
+    encoded_bool_false = SsbBfe.encode(false)
+
+    assert encoded_bool_true == <<6, 1, 1>>
+    assert encoded_bool_false == <<6, 1, 0>>
+  end
+
+  test "nil is encoded correctly" do
+    encoded_nil = SsbBfe.encode(nil)
+
+    assert encoded_nil == <<6, 2>>
+  end
+
+  test "list is encoded correctly" do
+    encoded_list = SsbBfe.encode([true, nil, "ganoderma"])
+
+    assert encoded_list == [<<6, 1, 1>>, <<6, 2>>, <<6, 0, 103, 97, 110, 111, 100, 101, 114, 109, 97>>]
+  end
+
+  test "map is encoded correctly", context do
+    encoded_map = SsbBfe.encode(%{"bool" => false, "feed" => context.feed_classic})
+
+    assert encoded_map == %{"bool" => <<6, 1, 0>>, "feed" => <<0, 0, 119, 252, 195, 188, 91, 48, 21, 180, 26, 96, 151, 52, 222, 46, 59, 11, 208, 160, 13, 235, 254, 252, 15, 16, 65, 39, 198, 230, 95, 210, 17, 252>>}
+  end
+
+  test "tuple is encoded correctly", context do
+    encoded_tuple = SsbBfe.encode({7, context.msg_classic})
+
+    assert encoded_tuple == [7, <<1, 0, 71, 200, 94, 171, 251, 80, 163, 17, 8, 62, 69, 159, 208, 172, 103, 214, 112, 166, 252, 43, 49, 27, 96, 131, 165, 70, 39, 2, 247, 91, 93, 143>>]
+  end
 end
