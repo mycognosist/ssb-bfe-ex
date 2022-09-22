@@ -16,6 +16,8 @@ defmodule SsbBfe do
     :world
   end
 
+  # ENCODE
+
   def encode(value) when is_list(value) do
     Enum.map(value, fn x -> encode(x) end)
   end
@@ -31,7 +33,8 @@ defmodule SsbBfe do
   end
 
   def encode(value) when is_tuple(value) do
-    Enum.map(Tuple.to_list(value), fn x -> encode(x) end)
+    Enum.map(Tuple.to_list(value), fn x -> encode(x) end) |>
+    List.to_tuple()
   end
 
   def encode(value) when is_bitstring(value) do
@@ -61,4 +64,54 @@ defmodule SsbBfe do
   def encode(value) when is_number(value), do: value
 
   def encode(value) when is_nil(value), do: SsbBfe.Encoder.encode_nil()
+
+  # DECODE
+
+  def decode(value) when is_binary(value) do
+    first_byte = :binary.first(value)
+
+    cond do
+      0 == first_byte ->
+        SsbBfe.Decoder.decode_feed(value)
+
+      1 == first_byte ->
+        SsbBfe.Decoder.decode_msg(value)
+
+      2 == first_byte ->
+        SsbBfe.Decoder.decode_blob(value)
+
+      4 == first_byte ->
+        SsbBfe.Decoder.decode_sig(value)
+
+      5 == first_byte ->
+        SsbBfe.Decoder.decode_box(value)
+
+      6 == first_byte ->
+        SsbBfe.Decoder.decode_generic(value)
+
+      nil ->
+        true
+    end
+  end
+
+  def decode(value) when is_number(value), do: value
+
+  def decode(value) when is_list(value) do
+    Enum.map(value, fn x -> decode(x) end)
+  end
+
+  def decode(value) when is_map(value) do
+    Enum.reduce(
+      value,
+      %{},
+      fn {k, v}, acc ->
+        Map.put(acc, k, SsbBfe.decode(v))
+      end
+    )
+  end
+
+  def decode(value) when is_tuple(value) do
+    Enum.map(Tuple.to_list(value), fn x -> decode(x) end) |>
+    List.to_tuple()
+  end
 end
