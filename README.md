@@ -10,6 +10,14 @@ See the [SSB Binary Field Encodings Specification](https://github.com/ssbc/ssb-b
 SsbBfe.encode(value)
 ```
 
+## Decoding
+
+```elixir
+SsbBfe.decode(value)
+```
+
+## Supported Types
+
 ### Elixir Types
 
 Encoding of the following Elixir types is supported:
