@@ -7,13 +7,21 @@ See the [SSB Binary Field Encodings Specification](https://github.com/ssbc/ssb-b
 ## Encoding
 
 ```elixir
-SsbBfe.encode(value)
+SsbBfe.encode("@HEqy940T6uB+T+d9Jaa58aNfRzLx9eRWqkZljBmnkmk=.ed25519")
+<<0, 0, 28, 74, 178, 247, 141, 19, 234, 224, 126, 79, 231, 125, 37, 166, 185,
+  241, 163, 95, 71, 50, 241, 245, 228, 86, 170, 70, 101, 140, 25, 167, 146,
+105>>
 ```
 
 ## Decoding
 
 ```elixir
-SsbBfe.decode(value)
+SsbBfe.decode(
+  <<0, 0, 28, 74, 178, 247, 141, 19, 234, 224, 126, 79, 231, 125, 37, 166, 185,
+    241, 163, 95, 71, 50, 241, 245, 228, 86, 170, 70, 101, 140, 25, 167, 146,
+  105>>
+)
+"@HEqy940T6uB+T+d9Jaa58aNfRzLx9eRWqkZljBmnkmk=.ed25519"
 ```
 
 ## Supported Types
