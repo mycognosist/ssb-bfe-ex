@@ -1,20 +1,9 @@
 defmodule SsbBfe do
   @moduledoc """
-  Documentation for `SsbBfe`.
+  Binary Field Encodings (BFE) for Secure Scuttlebutt (SSB).
+
+  Encode and decode TFD values.
   """
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> SsbBfe.hello()
-      :world
-
-  """
-  def hello do
-    :world
-  end
 
   # ENCODE
 
@@ -89,8 +78,8 @@ defmodule SsbBfe do
       6 == first_byte ->
         SsbBfe.Decoder.decode_generic(value)
 
-      nil ->
-        true
+      true ->
+        nil
     end
   end
 
