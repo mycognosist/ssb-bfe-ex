@@ -1,20 +1,22 @@
 defmodule SsbBfe do
   @moduledoc """
-  Documentation for `SsbBfe`.
-  """
+  Binary Field Encodings (BFE) for Secure Scuttlebutt (SSB).
 
-  @doc """
-  Hello world.
+  Encode and decode TFD values.
 
   ## Examples
 
-      iex> SsbBfe.hello()
-      :world
+    iex> SsbBfe.encode("@HEqy940T6uB+T+d9Jaa58aNfRzLx9eRWqkZljBmnkmk=.ed25519")
+    <<0, 0, 28, 74, 178, 247, 141, 19, 234, 224, 126, 79, 231, 125, 37, 166, 185,
+      241, 163, 95, 71, 50, 241, 245, 228, 86, 170, 70, 101, 140, 25, 167, 146,
+    105>>
+
+    ...> SsbBfe.decode(<<0, 0, 28, 74, 178, 247, 141, 19, 234, 224, 126, 79, 231, 125, 37, 166, 185,
+      241, 163, 95, 71, 50, 241, 245, 228, 86, 170, 70, 101, 140, 25, 167, 146,
+    105>>)
+    "@HEqy940T6uB+T+d9Jaa58aNfRzLx9eRWqkZljBmnkmk=.ed25519"
 
   """
-  def hello do
-    :world
-  end
 
   # ENCODE
 
@@ -33,8 +35,8 @@ defmodule SsbBfe do
   end
 
   def encode(value) when is_tuple(value) do
-    Enum.map(Tuple.to_list(value), fn x -> encode(x) end) |>
-    List.to_tuple()
+    Enum.map(Tuple.to_list(value), fn x -> encode(x) end)
+    |> List.to_tuple()
   end
 
   def encode(value) when is_bitstring(value) do
@@ -89,8 +91,8 @@ defmodule SsbBfe do
       6 == first_byte ->
         SsbBfe.Decoder.decode_generic(value)
 
-      nil ->
-        true
+      true ->
+        nil
     end
   end
 
@@ -111,7 +113,7 @@ defmodule SsbBfe do
   end
 
   def decode(value) when is_tuple(value) do
-    Enum.map(Tuple.to_list(value), fn x -> decode(x) end) |>
-    List.to_tuple()
+    Enum.map(Tuple.to_list(value), fn x -> decode(x) end)
+    |> List.to_tuple()
   end
 end
