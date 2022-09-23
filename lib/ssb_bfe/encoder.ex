@@ -74,5 +74,5 @@ defmodule SsbBfe.Encoder do
   @doc """
   Take a string value and return the encoded bytes representing the TFD.
   """
-def encode_str(str), do: <<6, 0>> <> str
-end 
+  def encode_str(str), do: <<6, 0>> <> str
+end

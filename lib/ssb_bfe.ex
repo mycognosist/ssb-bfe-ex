@@ -22,8 +22,8 @@ defmodule SsbBfe do
   end
 
   def encode(value) when is_tuple(value) do
-    Enum.map(Tuple.to_list(value), fn x -> encode(x) end) |>
-    List.to_tuple()
+    Enum.map(Tuple.to_list(value), fn x -> encode(x) end)
+    |> List.to_tuple()
   end
 
   def encode(value) when is_bitstring(value) do
@@ -100,7 +100,7 @@ defmodule SsbBfe do
   end
 
   def decode(value) when is_tuple(value) do
-    Enum.map(Tuple.to_list(value), fn x -> decode(x) end) |>
-    List.to_tuple()
+    Enum.map(Tuple.to_list(value), fn x -> decode(x) end)
+    |> List.to_tuple()
   end
 end
