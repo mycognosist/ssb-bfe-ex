@@ -21,13 +21,10 @@ defmodule SsbBfe.Encoder do
   end
 
   @doc """
-  Take a boolean `true` value and return the encoded bytes representing the TFD.
+  Take a boolean value and return the encoded bytes representing the TFD.
   """
   def encode_bool(true), do: <<6, 1, 1>>
 
-  @doc """
-  Take a boolean `false` value and return the encoded bytes representing the TFD.
-  """
   def encode_bool(false), do: <<6, 1, 0>>
 
   @doc """
